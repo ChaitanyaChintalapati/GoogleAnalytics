@@ -1,4 +1,4 @@
-# Basic Extension
+# Google Analytics Connector
 
 Google Analytics Connector 1.0 from Ksquare gives out-of box solution to Integrate your Google Analytics data with other business applications.
 
