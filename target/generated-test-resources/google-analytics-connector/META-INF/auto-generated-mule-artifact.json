@@ -1,0 +1,30 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.modules.googleanalytics.internal.GoogleAnalyticsExtension",
+      "version": "4.1.1"
+    }
+  },
+  "license": {
+    "allowsEvaluation": true
+  },
+  "name": "Google Analytics",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.modules.googleanalytics.api.params",
+        "org.mule.modules.googleanalytics.api.domain"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
