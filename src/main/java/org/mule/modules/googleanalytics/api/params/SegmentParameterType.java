@@ -1,7 +1,9 @@
+/**
+ * (c) 2003-2017 MuleSoft, Inc. The software in this package is published under the terms of the Commercial Free Software license V.1 a copy of which has been included with this distribution in the LICENSE.md file.
+ */
 package org.mule.modules.googleanalytics.api.params;
 
 import org.mule.modules.googleanalytics.api.domain.FilterKey;
-import org.mule.modules.googleanalytics.api.domain.FilterOperator;
 import org.mule.modules.googleanalytics.api.domain.SegmentKey;
 import org.mule.modules.googleanalytics.api.domain.SegmentOperator;
 import org.mule.modules.googleanalytics.api.domain.SegmentType;
@@ -46,8 +48,6 @@ public class SegmentParameterType {
 	public void setSegmentFilter(FilterKey segmentFilter) {
 		this.segmentFilter = segmentFilter;
 	}
-
-	
 
 	public SegmentOperator getSegmentOpertor() {
 		return segmentOpertor;

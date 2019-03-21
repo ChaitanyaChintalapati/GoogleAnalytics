@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
+import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsException;
 import org.mule.modules.googleanalytics.internal.model.GoogleAnalyticsOAuth2Config;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
@@ -23,27 +25,53 @@ import com.google.api.services.analytics.AnalyticsScopes;
 
 public class GoogleAnalyticsConnection {
 	
+	/**
+	   * Initializes an Analytics service object.
+	   *
+	   * @return An authorized Analytics service object.
+	   * 
+	   */
 	
-	
-	public Analytics initializeGoogleAnalytic(String clientId, String clientSecret, String domain, int port, String applicationName) throws GeneralSecurityException, IOException {
+	public Analytics initializeGoogleAnalytic(String clientId, String clientSecret, String domain, int port, String applicationName)   {
 		
-		final File DATA_STORE_DIR = new File("google_analytics_one");
-		final FileDataStoreFactory DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
+		final File DATA_STORE_DIR = new File("google_analytics_two");
+		FileDataStoreFactory DATA_STORE_FACTORY = null;
+		try {
+			DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
+		} catch (IOException e) {
+			throw new GoogleAnalyticsException("Unble to creatre data store factory", GoogleAnalyticsError.CONNECTION_EXCEPTION);
+		}
 		
 		final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-		final HttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-		
+		HttpTransport HTTP_TRANSPORT = null;
+		try {
+			HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		} catch (GeneralSecurityException | IOException e) {
+			throw new GoogleAnalyticsException("Unable to create google analytics transport", GoogleAnalyticsError.CONNECTION_EXCEPTION);
+		}
+	
 		// set up authorization code flow
-	    AuthorizationCodeFlow authorizationCodeFlow = new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(), HTTP_TRANSPORT, JSON_FACTORY, new GenericUrl(GoogleAnalyticsOAuth2Config.TOKEN_SERVER_URL), new ClientParametersAuthentication(clientId, clientSecret), clientId, GoogleAnalyticsOAuth2Config.AUTHORIZATION_SERVER_URL)
-	    		.setScopes(AnalyticsScopes.all())
-	    		.setDataStoreFactory(DATA_STORE_FACTORY).build();
+	    AuthorizationCodeFlow authorizationCodeFlow = null;
+		try {
+			authorizationCodeFlow = new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(), HTTP_TRANSPORT, JSON_FACTORY, new GenericUrl(GoogleAnalyticsOAuth2Config.TOKEN_SERVER_URL), new ClientParametersAuthentication(clientId, clientSecret), clientId, GoogleAnalyticsOAuth2Config.AUTHORIZATION_SERVER_URL).setScopes(AnalyticsScopes.all()).setDataStoreFactory(DATA_STORE_FACTORY).build();
+		} catch (IOException e) {
+			throw new GoogleAnalyticsException("Innvalid authorization", GoogleAnalyticsError.INVALID_AUTH);
+		}
 		
 	    // authorize
 	    LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost(domain).setPort(port).build();
 	    
-		Credential credential = new AuthorizationCodeInstalledApp(authorizationCodeFlow, receiver).authorize("user");
+		Credential credential = null;
+		try {
+			credential = new AuthorizationCodeInstalledApp(authorizationCodeFlow, receiver).authorize("user");
+		} catch (IOException e) {
+			throw new GoogleAnalyticsException("User is not authorized", GoogleAnalyticsError.NOT_AUTHED);
+		}
+		
+		// Construct the Analytics service object.
 		return new Analytics.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(applicationName).build();
 		
+	
 	}
-
 }
+

@@ -3,10 +3,7 @@ package org.mule.modules.googleanalytics.internal.connection;
 import static org.mule.runtime.api.connection.ConnectionValidationResult.failure;
 import static org.mule.runtime.api.connection.ConnectionValidationResult.success;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import org.mule.modules.googleanalytics.internal.connection.GoogleAnalyticsConnection;
+import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -14,43 +11,57 @@ import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Example;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import com.google.api.services.analytics.Analytics;
 
 public class OAuth2ConnectionProvider implements CachedConnectionProvider<Analytics> {
+	/**
+     * Client ID
+     */
 	@Parameter
 	private String clientId;
-
+	
+	
+	/**
+     * Client Secret
+     */
 	@Parameter
 	private String clientSecret;
 
+	
+	/**
+     * Host name or IP address
+     */
 	@Parameter
 	@Optional
 	@Example("localhost")
 	private String domain;
 
+	
+	/**
+     * Port
+     */
 	@Parameter
 	@Optional
 	@Example("8080")
 	private int port;
+	
+	/**
+     * Application Name
+     */
 
 	@Parameter
 	@Example("Hello Analytics")
 	private String applicationName;
 
 	@Override
-	public Analytics connect() throws ConnectionException {
-		try {
-			return new GoogleAnalyticsConnection().initializeGoogleAnalytic(clientId, clientSecret, domain, port,
-					applicationName);
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public Analytics connect()  {
 
-		throw new ConnectionException("Unable to connect to Google Analytics using OAuth");
-	}
+			
+					return new GoogleAnalyticsConnection().initializeGoogleAnalytic(clientId, clientSecret, domain, port,
+							applicationName);
+				} 
 
 	@Override
 	public void disconnect(Analytics connection) {
@@ -64,8 +75,9 @@ public class OAuth2ConnectionProvider implements CachedConnectionProvider<Analyt
 		if (connection != null && connection.metadata() != null) {
 			result.set(success());
 		} else {
-			result.set(failure("Unable to connect to Google Analytics", new ConnectionException(
-					"Unable to connect Google Analytics server. Please check your connectivity")));
+			
+			
+	result.set(failure("Unable to connect to Google Analytics server. " , new ConnectionException(new ModuleException("Unable to connect to Google Analytics Server. ", GoogleAnalyticsError.INVALID_AUTH))));
 		}
 		return result.get();
 	}

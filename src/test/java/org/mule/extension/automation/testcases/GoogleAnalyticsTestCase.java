@@ -1,13 +1,14 @@
-
 package org.mule.extension.automation.testcases;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.Matchers.*;
+
 import java.util.Map;
-import org.mule.functional.junit4.MuleArtifactFunctionalTestCase;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+import org.mule.functional.junit4.MuleArtifactFunctionalTestCase;
 
 public class GoogleAnalyticsTestCase extends MuleArtifactFunctionalTestCase {
 
