@@ -169,9 +169,9 @@ image::./images/metrics_3.png[]
 +
 ```xml
 <google-analytics:metrix-parameters>
-				<google-analytics:metrics-parameter value="Sessions" />
-				<google-analytics:metrics-parameter value="Bounces" />
-			</google-analytics:metrix-parameters>
+<google-analytics:metrics-parameter value="Sessions" />
+<google-analytics:metrics-parameter value="Bounces" />
+</google-analytics:metrix-parameters>
 ```
 
 == *Dimensions* : String(optional)
@@ -188,9 +188,9 @@ image::./images/dimension.png[]
 +
 ```xml
 <google-analytics:dimension-parameters>
-				<google-analytics:dimension-parameter value="Browser" />
-				<google-analytics:dimension-parameter value="City" />
-			</google-analytics:dimension-parameters>
+<google-analytics:dimension-parameter value="Browser" />
+<google-analytics:dimension-parameter value="City" />
+</google-analytics:dimension-parameters>
 ```
 
 
@@ -205,8 +205,8 @@ image::./images/sort.png[]
 +
 ```xml
 <google-analytics:sortparms >
-					<google-analytics:sort-parameter-type sortparamValue="Sessions" sortOrder="DESCENDING" />
-				</google-analytics:sortparms>
+<google-analytics:sort-parameter-type sortparamValue="Sessions" sortOrder="DESCENDING" />
+</google-analytics:sortparms>
 ```
 
 == *Filters* : String(optional)
@@ -260,11 +260,11 @@ image::./images/filter_4.png[]
 +
 ```xml
   <google-analytics:filter-parameter>
-				<google-analytics:filter-params>
-					<google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
-					<google-analytics:filter-parameter-type key="Country" operator="Equals" value="United States" operation="AND" />
-				</google-analytics:filter-params>
-			</google-analytics:filter-parameter>
+	<google-analytics:filter-params>
+<google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+<google-analytics:filter-parameter-type key="Country" operator="Equals" value="United States" operation="AND" />
+</google-analytics:filter-params>
+</google-analytics:filter-parameter>
 ```
 
 
@@ -324,13 +324,13 @@ image::./images/segment_4.png[]
 
 image::./images/segment_5.png[]
 
-+
+
 ```xml
   <google-analytics:segmentparameter >
-				<google-analytics:segmentparams >
-					<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Browser" segmentOpertor="EqualTo" segmentValue="Chrome" />
-				</google-analytics:segmentparams>
-			</google-analytics:segmentparameter>
+	<google-analytics:segmentparams >
+	<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Browser" segmentOpertor="EqualTo" segmentValue="Chrome" />
+	</google-analytics:segmentparams>
+	</google-analytics:segmentparameter>
   
 ```
 
