@@ -114,7 +114,7 @@ Relative dates are always relative to the current date at the time of the query 
 Google analytics connector has a facility to select value from the dropdown list or user can give the date manually according to the matching pattern.
 
 +
-image::../images/start_date_1.png[Start date parameter]
+image::start_date_1.png[Start date parameter]
 +
 
 
