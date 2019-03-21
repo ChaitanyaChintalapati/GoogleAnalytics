@@ -90,6 +90,8 @@ Input Parameters for generate report:
 == *Id* : String(required)
 The unique table ID is the Analytics view (profile) ID for which the query will retrieve the data.
 
+*Example*: UA-xxxxx-xxx
+
 === Find your Google Analytics ID
 
 
@@ -103,6 +105,8 @@ The unique table ID is the Analytics view (profile) ID for which the query will 
 ----
 
 
+
+
 == *Start-Date* : String(required)
 Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or NdaysAgo where N is a positive integer).
 
@@ -113,6 +117,8 @@ Relative dates are always relative to the current date at the time of the query 
 
 Google analytics connector has a facility to select value from the dropdown list or user can give the date manually according to the matching pattern.
 
+*Example*: today,7daysAgo,2019-01-30
+
 . Selecting value from the dropdown.
 +
 image::./images/start_date_1.png[]
@@ -120,6 +126,8 @@ image::./images/start_date_1.png[]
 . If user want to give start date manually.
 
 image::./images/start_date_2.png[]
+
+
 
 
 == *End-date* : String(required)
@@ -130,11 +138,13 @@ Relative dates are always relative to the current date at the time of the query 
 
 Google analytics connector has a facility to select value from the dropdown list or user can give the date manually according to the matching pattern.
 
+*Example*: today,7daysAgo,2019-01-30
+
 
 == *Metrics* : String(required)
 Metrics are the actual numbers google analytics measures from your website . whether thats number of sessions , time on page or the bounce rate.
 
-The aggregated statistics for user activity to your site, such as clicks or pageviews. If a query has no dimensions parameter, the returned metrics provide aggregate values for the requested date range, such as overall pageviews or total bounces. However, when dimensions are requested, values are segmented by dimension value. For example, ga:pageviews requested with ga:country returns the total pageviews per country. When requesting metrics, keep in mind.
+The aggregated statistics for user activity to your site, such as clicks or pageviews. If a query has no dimensions parameter, the returned metrics provide aggregate values for the requested date range, such as overall pageviews or total bounces. However, when dimensions are requested, values are segmented by dimension value. For example, pageviews requested with country returns the total pageviews per country. When requesting metrics, keep in mind.
 
 . Any request must supply at least one metric; a request cannot consist only of dimensions.
 . You can supply a maximum of 10 metrics for any query.
@@ -156,6 +166,13 @@ image::./images/metrics_2.png[]
 
 image::./images/metrics_3.png[]
 
++
+```xml
+<google-analytics:metrix-parameters>
+				<google-analytics:metrics-parameter value="Sessions" />
+				<google-analytics:metrics-parameter value="Bounces" />
+			</google-analytics:metrix-parameters>
+```
 
 == *Dimensions* : String(optional)
 
@@ -168,6 +185,14 @@ Building dimension query is similar to building metrics query adding the require
 
 image::./images/dimension.png[]
 
++
+```xml
+<google-analytics:dimension-parameters>
+				<google-analytics:dimension-parameter value="Browser" />
+				<google-analytics:dimension-parameter value="City" />
+			</google-analytics:dimension-parameters>
+```
+
 
 == *Sort* : String(optional)
 
@@ -175,7 +200,14 @@ A list of dimensions and metrics indicating the sorting order and sorting direct
 
 image::./images/sort.png[]
 
-. can be sorted either in ascending order or descending order. By default it has ascending order
+. can be sorted either in ascending order or descending order. By default it has ascending order.
+
++
+```xml
+<google-analytics:sortparms >
+					<google-analytics:sort-parameter-type sortparamValue="Sessions" sortOrder="DESCENDING" />
+				</google-analytics:sortparms>
+```
 
 == *Filters* : String(optional)
 
@@ -225,12 +257,24 @@ image::./images/filter_3.png[]
 
 image::./images/filter_4.png[]
 
++
+```xml
+  <google-analytics:filter-parameter>
+				<google-analytics:filter-params>
+					<google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+					<google-analytics:filter-parameter-type key="Country" operator="Equals" value="United States" operation="AND" />
+				</google-analytics:filter-params>
+			</google-analytics:filter-parameter>
+```
+
 
 == *Segment* : String(optional)
 
 A segment is a subset of your Analytics data. For example, of your entire set of users, one segment might be users from a particular country or city. Another segment might be users who purchase a particular line of products or who visit a specific part of your site.
 
 Segments let you isolate and analyze those subsets of data, so you can examine and respond to the component trends in your business.
+
+
 
 === Building segment query
 
@@ -280,6 +324,16 @@ image::./images/segment_4.png[]
 
 image::./images/segment_5.png[]
 
++
+```xml
+  <google-analytics:segmentparameter >
+				<google-analytics:segmentparams >
+					<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Browser" segmentOpertor="EqualTo" segmentValue="Chrome" />
+				</google-analytics:segmentparams>
+			</google-analytics:segmentparameter>
+  
+```
+
 
 == *SamplingLevel*: String(optional)
 
@@ -295,22 +349,30 @@ The desired sampling levels. user can select from the following.
 | HIGHER_PRECISION | Returns a more accurate response using a large sample size, but this may     result in the response being slower.
 |============
 
+*Example*: DEFAULT
 
 
 == *Start-index* : Integer(optional)
 
 The first row of data to retrieve, starting at 1. Use this parameter as a pagination mechanism along with the max-results parameter.
 
+*Example*: 10
 
 
 == *Max-results* : Integer(optional)
 
 The maximum number of rows to include in the response.
 
+*Example*: 100
+
+
 
 == *Output* : String(optional)
 
 The desired output type for the Analytics data returned in the response. Acceptable values are json and dataTable(Default: json).
+
+*Example*: json
+
 
 == Use Case: Studio
 

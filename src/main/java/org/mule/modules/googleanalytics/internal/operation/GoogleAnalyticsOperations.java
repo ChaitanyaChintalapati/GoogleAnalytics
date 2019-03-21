@@ -5,6 +5,8 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.mule.modules.googleanalytics.api.domain.Output;
 import org.mule.modules.googleanalytics.api.domain.SamplingLevel;
 import org.mule.modules.googleanalytics.api.params.DimensionParameter;
@@ -15,7 +17,9 @@ import org.mule.modules.googleanalytics.api.params.SortParameter;
 import org.mule.modules.googleanalytics.internal.util.GoogleAnalyticsUtility;
 import org.mule.modules.googleanalytics.internal.valueprovider.StartDateValueProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.core.api.el.ExpressionManager;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
@@ -38,6 +42,14 @@ import com.google.api.services.analytics.Analytics;
 
 public class GoogleAnalyticsOperations {
 
+	@Inject
+    ExpressionManager expressionManager;
+
+    @Ignore
+    public void setExpressionManager(ExpressionManager expressionManager) {
+        this.expressionManager = expressionManager;
+    }
+	
 	@MediaType(value = ANY, strict = false)
 	public String generateReport(@Connection Analytics analyticsConnection,
 			@Summary("An Unique Google Analytics Profile ID to get Analytics Data ") String profileId,
