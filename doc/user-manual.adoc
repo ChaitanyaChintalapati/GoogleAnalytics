@@ -153,9 +153,9 @@ image::./images/metrics_1.png[]
 image::./images/metrics_2.png[]
 +
 . Save the Selected values to build the query
-+
+
 image::./images/metrics_3.png[]
-+
+
 
 == *Dimensions* : String(optional)
 
@@ -222,9 +222,9 @@ image::./images/filter_3.png[]
  example: 1, United States...etc
 +
 . To use multiple filters we can combine them  using AND , OR operation.
-+
+
 image::./images/filter_4.png[]
-+
+
 
 == *Segment* : String(optional)
 
