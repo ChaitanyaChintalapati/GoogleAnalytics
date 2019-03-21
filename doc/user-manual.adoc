@@ -103,7 +103,7 @@ The unique table ID is the Analytics view (profile) ID for which the query will 
 ----
 
 
-. *start-date* : String(required)
+. *Start-Date* : String(required)
 Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or NdaysAgo where N is a positive integer).
 
 Values must match [0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+(daysAgo).
@@ -118,9 +118,9 @@ Google analytics connector has a facility to select value from the dropdown list
 image::./images/start_date_1.png[]
 +
 ** If user want to give start date manually.
-+
+
 image::./images/start_date_2.png[]
-+
+
 
 . *End-date* : String(required)
 
