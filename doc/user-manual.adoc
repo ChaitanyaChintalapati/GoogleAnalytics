@@ -87,7 +87,7 @@ Generate report is core operation of the connector which is responsible for gett
 
 Input Parameters for generate report:
 
-1. *Id* : String(required)
+. *Id* : String(required)
 The unique table ID is the Analytics view (profile) ID for which the query will retrieve the data.
 
 ==== Find your Google Analytics ID
@@ -103,7 +103,7 @@ The unique table ID is the Analytics view (profile) ID for which the query will 
 ----
 
 
- 2. *start-date* : String(required)
+. *start-date* : String(required)
 Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or NdaysAgo where N is a positive integer).
 
 Values must match [0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+(daysAgo).
@@ -113,12 +113,16 @@ Relative dates are always relative to the current date at the time of the query 
 
 Google analytics connector has a facility to select value from the dropdown list or user can give the date manually according to the matching pattern.
 
+** Selecting value from the dropdown.
++
+image::./images/start_date_1.png[]
++
+** If user want to give start date manually.
++
+image::./images/start_date_2.png[]
++
 
-image::./images/start_date_1.png[Start date parameter]
-
-
-
-3. *End-date* : String(required)
+. *End-date* : String(required)
 
 All Analytics data requests must specify a date range. If you do not include start-date and end-date parameters in the request, the server returns an error. Date values can be for a specific date by using the pattern YYYY-MM-DD or relative by using today, yesterday, or the NdaysAgo pattern. Values must match [0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+(daysAgo).
 The earliest valid end-date is 2005-01-01. There is no upper limit restriction for an end-date.
@@ -127,14 +131,14 @@ Relative dates are always relative to the current date at the time of the query 
 Google analytics connector has a facility to select value from the dropdown list or user can give the date manually according to the matching pattern.
 
 
-4. *Metrics* : String(required)
+. *Metrics* : String(required)
 Metrics are the actual numbers google analytics measures from your website . whether thats number of sessions , time on page or the bounce rate.
 
 The aggregated statistics for user activity to your site, such as clicks or pageviews. If a query has no dimensions parameter, the returned metrics provide aggregate values for the requested date range, such as overall pageviews or total bounces. However, when dimensions are requested, values are segmented by dimension value. For example, ga:pageviews requested with ga:country returns the total pageviews per country. When requesting metrics, keep in mind.
 
-. Any request must supply at least one metric; a request cannot consist only of dimensions.
-. You can supply a maximum of 10 metrics for any query.
-. Most combinations of metrics from multiple categories can be used together, provided no   dimensions are specified
+** Any request must supply at least one metric; a request cannot consist only of dimensions.
+** You can supply a maximum of 10 metrics for any query.
+** Most combinations of metrics from multiple categories can be used together, provided no   dimensions are specified
 
 To know more about metrics access the link : https://developers.google.com/analytics/devguides/reporting/core/dimsmets[metrics parameters]
 
@@ -142,17 +146,18 @@ To know more about metrics access the link : https://developers.google.com/analy
 
 . Click on the plus sign to build the query
 +
-image::metrics_1.png
+image::./images/metrics_1.png[]
 +
 . Select metrics values from the dropdown list
 +
-image::metrics_2.png
+image::./images/metrics_2.png[]
 +
 . Save the Selected values to build the query
 +
-image::metrics_3.png
+image::./images/metrics_3.png[]
 +
-5. *Dimensions* : String(optional)
+
+. *Dimensions* : String(optional)
 
 A metrics are actual measurements produced on your website, dimensions are rules in which you can compile those measurements and convert them into actual, readable number relevant to your business.
 
@@ -161,35 +166,35 @@ To know more about Dimensions access the link : https://developers.google.com/an
 ==== Building dimension query
 Building dimension query is similar to building metrics query adding the required values from the dropdown.
 +
-image::dimension.png
+image::./images/dimension.png[]
 +
 
-6. *Sort* : String(optional)
+. *Sort* : String(optional)
 
 A list of dimensions and metrics indicating the sorting order and sorting direction for the returned data.
 +
-image::sort.png
+image::./images/sort.png[]
 +
-. can be sorted either in ascending order or descending order. By default it has ascending order
+** can be sorted either in ascending order or descending order. By default it has ascending order
 
-7. *Filters* : String(optional)
+. *Filters* : String(optional)
 
 The filters query string parameter restricts the data returned from your request. To use the filters parameter, supply a dimension or metric on which to filter, followed by the filter expression.
 
 ==== Building filter query
-. To build a filter query click on the plus sign it opens a new window
+** To build a filter query click on the plus sign it opens a new window
 
 +
-image::filter_1.png
+image::./images/filter_1.png[]
 +
 
 . key parameters shows list of available filter metrics and dimensions values
 
 +
-image::filter_2.png
+image::./images/filter_2.png[]
 +
 
-. Operator parameter shows list of available operator in metrics like greaterThan or lessThan ..etc as shown in the table below 
+** Operator parameter shows list of available operator in metrics like greaterThan or lessThan ..etc as shown in the table below 
 +
 [options="header",width="50%"]
 [source,code,linenums]
@@ -208,19 +213,19 @@ image::filter_2.png
 |============
 +
 +
-image::filter_3.png
+image::./images/filter_3.png[]
 +
 
-. Value parameter is user defined and show be given by user and can be of integer or String.
+** Value parameter is user defined and show be given by user and can be of integer or String.
 +
  example: 1, United States
 +
-. To use multiple filters we can combine them  using AND , OR operation.
+**  To use multiple filters we can combine them  using AND , OR operation.
 +
-image::filter_4.png
+image::./images/filter_4.png[]
 +
 
-8. *Segment* : String(optional)
+. *Segment* : String(optional)
 
 A segment is a subset of your Analytics data. For example, of your entire set of users, one segment might be users from a particular country or city. Another segment might be users who purchase a particular line of products or who visit a specific part of your site.
 
@@ -228,27 +233,27 @@ Segments let you isolate and analyze those subsets of data, so you can examine a
 
 ==== Building segment query
 
-. To build a filter query click on the plus sign it opens a new window
+**  To build a filter query click on the plus sign it opens a new window
 
 +
-image::segment_1.png
+image::./images/segment_1.png[]
 +
-. Segment key gives user to build an query using sessions or users condition.
+** Segment key gives user to build an query using sessions or users condition.
 +
-image::segment_2.png
+image::./images/segment_2.png[]
 +
-. Segment type gives an option to select one or more conditions and/or sequences once you determine to use segment users or sessions.
+** Segment type gives an option to select one or more conditions and/or sequences once you determine to use segment users or sessions.
 +
-image::segement_3.png
+image::./images/segment_3.png[]
 +
-. Segment filter gives list of dimensions and metrics values to choose from dropdown list.
+** Segment filter gives list of dimensions and metrics values to choose from dropdown list.
 +
-image::segment-4.png
+image::./images/segment_4.png[]
 +
-. Segment Operator helps in choosing required operations to the segments.
+**  Segment Operator helps in choosing required operations to the segments.
  the list of operations available are shown below 
  
- +
+
 [options="header",width="50%"]
 [source,code,linenums]
 |============
@@ -266,17 +271,17 @@ image::segment-4.png
 |  =~ | Contains a match for regular expression
 |!~ | Does not contain a match for regular expression
 |============
-+ 
-. Segment value can be of type integer or string which is given by user.
+
+** Segment value can be of type integer or string which is given by user.
 
 example: Chrome, 2 ...etc 
 
-the complete query looks like 
+** The complete query looks like 
 +
-image::segment_5.png
+image::./images/segment_5.png[]
 +
 
-9. *SamplingLevel*: String(optional)
+. *SamplingLevel*: String(optional)
 
 The desired sampling levels. user can select from the following.
   
@@ -291,18 +296,18 @@ The desired sampling levels. user can select from the following.
 + 
 
 
-10. *Start-index* : Integer(optional)
+. *Start-index* : Integer(optional)
 
 The first row of data to retrieve, starting at 1. Use this parameter as a pagination mechanism along with the max-results parameter.
 
 
 
-11. *Max-results* : Integer(optional)
+. *Max-results* : Integer(optional)
 
 The maximum number of rows to include in the response.
 
 
-12. *Output* : String(optional)
+. *Output* : String(optional)
 
 The desired output type for the Analytics data returned in the response. Acceptable values are json and dataTable(Default: json).
 
@@ -312,7 +317,7 @@ The desired output type for the Analytics data returned in the response. Accepta
 . Create a new *Mule Project* in Anypoint Studio and fill in the Google Analytics OAuth 2.0  *credentials* in `src/main/resources/mule-app.properties`.
 
 +
-image::test_flow.png
+image::./images/test_flow.png[]
 +
 +
 [source,code,linenums]
