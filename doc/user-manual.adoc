@@ -274,13 +274,12 @@ image::./images/segment_4.png[]
 |============
 
 . Segment value can be of type integer or string which is given by user.
-
-example: Chrome, 2 ...etc 
+.. example: Chrome, 2 ...etc 
 
 . The complete query looks like 
-+
+
 image::./images/segment_5.png[]
-+
+
 
 == *SamplingLevel*: String(optional)
 
@@ -321,7 +320,7 @@ The desired output type for the Analytics data returned in the response. Accepta
 +
 image::./images/test_flow.png[]
 +
-+
+
 [source,code,linenums]
 ----
 config.clientID=<CLIENT_ID>
