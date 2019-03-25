@@ -40,21 +40,25 @@ public class GoogleAnalyticsUtility {
 	public String generateReport(Analytics analytics, String profileId, String startDate, String endDate,
 			SamplingLevel samplingLevel, int startIndex, int maxResults, Output output, List<MetricsParameter> metrix,
 			List<DimensionParameter> dimensions, SortParameter sort, FilterParameter filters,
-			SegmentParameter segment) {
+			SegmentParameter segment) throws GoogleAnalyticsException{
 
 		String result = null;
 		try {
 			String profile = getFirstProfileId(analytics, profileId);
 			result = getResults(analytics, profile, startDate, endDate, samplingLevel, metrix, startIndex, maxResults,
 					output, dimensions, sort, filters, segment).toPrettyString();
-		} catch (Exception e) {
+		} catch (GoogleAnalyticsException e) {
 			log.error("Error occured in GoogleAnalyticsUtility::generateReport()", e);
+			throw e;
+		} catch (IOException e) {
+			log.error("Error occured in GoogleAnalyticsUtility::generateReport()", e);
+			throw new GoogleAnalyticsException("Error while parsing google analytics result into json", GoogleAnalyticsError.JSON_PARSER_EXCEPTION);
 		}
 		return result;
 	}
 
 	// Get the first view (profile) ID for the authorized user.
-	private String getFirstProfileId(Analytics analytics, String profileId) {
+	private String getFirstProfileId(Analytics analytics, String profileId) throws GoogleAnalyticsException{
 
 		// Query for the list of all accounts associated with the service
 		// account.
@@ -63,6 +67,7 @@ public class GoogleAnalyticsUtility {
 			accounts = analytics.management().accounts().list().execute();
 		} catch (IOException e) {
 			log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId()", e);
+			throw new GoogleAnalyticsException("Account ID not found", GoogleAnalyticsError.ACCOUNT_NOT_FOUND);
 		}
 
 		if (accounts == null || accounts.getItems().isEmpty()) {
@@ -76,6 +81,7 @@ public class GoogleAnalyticsUtility {
 			try {
 				properties = analytics.management().webproperties().list(firstAccountId).execute();
 			} catch (IOException e) {
+				log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId()", e);
 				throw new GoogleAnalyticsException("Account ID not found", GoogleAnalyticsError.ACCOUNT_NOT_FOUND);
 			}
 
@@ -90,6 +96,7 @@ public class GoogleAnalyticsUtility {
 				try {
 					profiles = analytics.management().profiles().list(firstAccountId, firstWebpropertyId).execute();
 				} catch (IOException e) {
+					log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId()", e);
 					throw new GoogleAnalyticsException("No Profiles found", GoogleAnalyticsError.NO_PROFILES_FOUND);
 				}
 
@@ -129,6 +136,7 @@ public class GoogleAnalyticsUtility {
 		try {
 			getQuery = analytics.data().ga().get(String.format("ga:%s", profileId), startDate, endDate, metricValue);
 		} catch (IOException e) {
+			log.error("Error occured in GoogleAnalyticsUtility::getResults()", e);
 			throw new GoogleAnalyticsException("Internal error occurred please try again or contact help desk",
 					GoogleAnalyticsError.SERVERE_RROR);
 		}
@@ -174,6 +182,7 @@ public class GoogleAnalyticsUtility {
 		try {
 			gaData = getQuery.execute();
 		} catch (IOException e) {
+			log.error("Error occured in GoogleAnalyticsUtility::getResults()", e);
 			throw new GoogleAnalyticsException("Error in executing Google Analytics Query",
 					GoogleAnalyticsError.QUERY_ERROR);
 

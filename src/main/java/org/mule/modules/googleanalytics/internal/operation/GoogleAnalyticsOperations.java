@@ -14,6 +14,7 @@ import org.mule.modules.googleanalytics.api.params.FilterParameter;
 import org.mule.modules.googleanalytics.api.params.MetricsParameter;
 import org.mule.modules.googleanalytics.api.params.SegmentParameter;
 import org.mule.modules.googleanalytics.api.params.SortParameter;
+import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsException;
 import org.mule.modules.googleanalytics.internal.util.GoogleAnalyticsUtility;
 import org.mule.modules.googleanalytics.internal.valueprovider.StartDateValueProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -63,7 +64,7 @@ public class GoogleAnalyticsOperations {
 			@Summary("The dimensions parameter breaks down metrics by common criteria; for example, by ga:browser or ga:city") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) List<DimensionParameter> dimensionParameters,
 			@Summary("Sorting the results of a query enables you to ask different questions about your data. For example, to address the question What are my top countries, and which browsers do they use most?") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SortParameter sortParameter,
 			@Summary("The filters query string parameter restricts the data returned from your request.For example, the following query requests ga:pageviews and ga:browser for view (profile) 12134, where the ga:browser dimension starts with the string Firefox:") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) FilterParameter filterParameter,
-			@Summary("Isolate and analyze subsets of your data, For example Select users who used Chrome browser in at least one of their sessions") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SegmentParameter segmentparameter) {
+			@Summary("Isolate and analyze subsets of your data, For example Select users who used Chrome browser in at least one of their sessions") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SegmentParameter segmentparameter) throws GoogleAnalyticsException{
 
 		GoogleAnalyticsUtility analyticsUtility = new GoogleAnalyticsUtility();
 		return analyticsUtility.generateReport(analyticsConnection, profileId, startDate, endDate, samplingLevel,

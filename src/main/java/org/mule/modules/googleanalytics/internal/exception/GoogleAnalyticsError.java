@@ -16,6 +16,8 @@ public enum GoogleAnalyticsError implements ErrorTypeDefinition<GoogleAnalyticsE
 
 	
 	EXECUTION,
+	
+	JSON_PARSER_EXCEPTION(EXECUTION),
 	OPERATION_NOT_APPLIED(EXECUTION),
 	INVALID_QUERY(EXECUTION),
 	NO_HOST_AVAILABLE(EXECUTION),
