@@ -23,6 +23,8 @@ import org.mule.modules.googleanalytics.api.params.SortParameter;
 import org.mule.modules.googleanalytics.api.params.SortParameterType;
 import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
 import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.api.services.analytics.Analytics;
 import com.google.api.services.analytics.Analytics.Data.Ga.Get;
@@ -33,26 +35,26 @@ import com.google.api.services.analytics.model.Webproperties;
 
 public class GoogleAnalyticsUtility {
 
-	@SuppressWarnings("finally")
-	
+	private static final Logger log = LoggerFactory.getLogger(GoogleAnalyticsUtility.class);
+
 	public String generateReport(Analytics analytics, String profileId, String startDate, String endDate,
 			SamplingLevel samplingLevel, int startIndex, int maxResults, Output output, List<MetricsParameter> metrix,
 			List<DimensionParameter> dimensions, SortParameter sort, FilterParameter filters,
 			SegmentParameter segment) {
+
 		String result = null;
 		try {
 			String profile = getFirstProfileId(analytics, profileId);
 			result = getResults(analytics, profile, startDate, endDate, samplingLevel, metrix, startIndex, maxResults,
 					output, dimensions, sort, filters, segment).toPrettyString();
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			return result;
+			log.error("Error occured in GoogleAnalyticsUtility::generateReport()", e);
 		}
+		return result;
 	}
 
 	// Get the first view (profile) ID for the authorized user.
-	private String getFirstProfileId(Analytics analytics, String profileId)  {
+	private String getFirstProfileId(Analytics analytics, String profileId) {
 
 		// Query for the list of all accounts associated with the service
 		// account.
@@ -60,12 +62,11 @@ public class GoogleAnalyticsUtility {
 		try {
 			accounts = analytics.management().accounts().list().execute();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId()", e);
 		}
 
-		if (accounts.getItems().isEmpty()) {
-			System.err.println("No accounts found");
+		if (accounts == null || accounts.getItems().isEmpty()) {
+			log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId() No accounts found");
 		} else {
 			String firstAccountId = accounts.getItems().get(0).getId();
 
@@ -75,12 +76,11 @@ public class GoogleAnalyticsUtility {
 			try {
 				properties = analytics.management().webproperties().list(firstAccountId).execute();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				throw  new  GoogleAnalyticsException("Account ID not found",GoogleAnalyticsError.ACCOUNT_NOT_FOUND);
+				throw new GoogleAnalyticsException("Account ID not found", GoogleAnalyticsError.ACCOUNT_NOT_FOUND);
 			}
 
-			if (properties.getItems().isEmpty()) {
-				System.err.println("No Webproperties found");
+			if (properties == null || properties.getItems().isEmpty()) {
+				log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId() No Webproperties found");
 			} else {
 				String firstWebpropertyId = properties.getItems().get(0).getId();
 
@@ -88,15 +88,13 @@ public class GoogleAnalyticsUtility {
 				// property.
 				Profiles profiles = null;
 				try {
-					profiles = analytics.management().profiles().list(firstAccountId, firstWebpropertyId)
-							.execute();
+					profiles = analytics.management().profiles().list(firstAccountId, firstWebpropertyId).execute();
 				} catch (IOException e) {
-					throw  new  GoogleAnalyticsException("No Profiles found",GoogleAnalyticsError.NO_PROFILES_FOUND);
-				
+					throw new GoogleAnalyticsException("No Profiles found", GoogleAnalyticsError.NO_PROFILES_FOUND);
 				}
 
-				if (profiles.getItems().isEmpty()) {
-					System.err.println("No views (profiles) found");
+				if (profiles == null || profiles.getItems().isEmpty()) {
+					log.error("Error occured in GoogleAnalyticsUtility::getFirstProfileId() No views (profiles) found");
 				} else {
 					// Return the first (view) profile associated with the
 					// property.
@@ -107,22 +105,17 @@ public class GoogleAnalyticsUtility {
 		return profileId;
 	}
 
-	@SuppressWarnings("unused")
-	
 	private GaData getResults(Analytics analytics, String profileId, String startDate, String endDate,
 			SamplingLevel samplingLevel, List<MetricsParameter> metrix, int startIndex, int maxResults, Output output,
 			List<DimensionParameter> dimensions, SortParameter sort, FilterParameter filters, SegmentParameter segment)
-			throws  GoogleAnalyticsException {
+			throws GoogleAnalyticsException {
 		// Query the Core Reporting API for given query parameters.
-	  
+
 		String metricValue = "";
 		String dimentionValue = "";
 		String sortValue = "";
 		String filterValue = "";
 		String samplingLevelValue = "";
-		String OutputValue = "";
-		Integer startIndexValue = null;
-		Integer maxResultsValue = null;
 		String segmentValue = "";
 
 		metricValue = createMetrixQuery(metrix, metricValue);
@@ -131,69 +124,64 @@ public class GoogleAnalyticsUtility {
 		filterValue = createFilterQuery(filters, filterValue);
 		segmentValue = createSegment(segment, segmentValue);
 
-		Get getQuery= null;
-		
+		Get getQuery = null;
+
 		try {
-			getQuery = analytics.data().ga().get(String.format("ga:%s", profileId), startDate,
-					endDate, metricValue);
+			getQuery = analytics.data().ga().get(String.format("ga:%s", profileId), startDate, endDate, metricValue);
 		} catch (IOException e) {
-			throw new GoogleAnalyticsException("Internal error occurred please try again or contact help desk",GoogleAnalyticsError.SERVERE_RROR);
+			throw new GoogleAnalyticsException("Internal error occurred please try again or contact help desk",
+					GoogleAnalyticsError.SERVERE_RROR);
 		}
 
-		if (metricValue != "") {
+		if (!metricValue.isEmpty()) {
 			getQuery = getQuery.setMetrics(metricValue);
 		}
 
-		if (dimentionValue != "") {
+		if (!dimentionValue.isEmpty()) {
 			getQuery = getQuery.setDimensions(dimentionValue);
 		}
 
-		if (samplingLevelValue != "") {
+		if (!samplingLevelValue.isEmpty()) {
 			getQuery = getQuery.setSamplingLevel(samplingLevel.getSamplingLevel().toString());
 
 		}
 
-		if (sortValue != "") {
+		if (!sortValue.isEmpty()) {
 			getQuery = getQuery.setSort(sortValue);
 		}
 
-		if (filterValue != "") {
+		if (!filterValue.isEmpty()) {
 			getQuery = getQuery.setFilters(filterValue);
 		}
 
-		if (OutputValue != "") {
-			getQuery = getQuery.setOutput(output.getOutput().toString());
-
-		}
-
-		if (startIndexValue != null) {
-			getQuery = getQuery.setStartIndex(startIndex);
-
-		}
-
-		if (maxResultsValue != null) {
-			getQuery = getQuery.setMaxResults(maxResults);
-
-		}
-
-		if (segmentValue != "") {
+		if (!segmentValue.isEmpty()) {
 			getQuery = getQuery.setSegment(segmentValue);
+		}
 
+		if (output != null && !output.getOutput().isEmpty()) {
+			getQuery = getQuery.setOutput(output.getOutput());
+		}
+
+		if (startIndex != 0) {
+			getQuery = getQuery.setStartIndex(startIndex);
+		}
+
+		if (maxResults != 0) {
+			getQuery = getQuery.setMaxResults(maxResults);
 		}
 
 		GaData gaData = null;
 		try {
 			gaData = getQuery.execute();
 		} catch (IOException e) {
-			throw new GoogleAnalyticsException("Error in executing Google Analytics Query",GoogleAnalyticsError.QUERY_ERROR);
-			
+			throw new GoogleAnalyticsException("Error in executing Google Analytics Query",
+					GoogleAnalyticsError.QUERY_ERROR);
+
 		}
-		
 
 		return gaData;
 	}
 
-	
 	// Query builder for Segment Parameter
 	private String createSegment(SegmentParameter segment, String segmentValue) {
 
@@ -232,7 +220,6 @@ public class GoogleAnalyticsUtility {
 					if (segmentValue.endsWith(";") || segmentValue.endsWith(",")) {
 						segmentValue = segmentValue.substring(0, segmentValue.length() - 1);
 					}
-
 				}
 			}
 		}
@@ -240,7 +227,6 @@ public class GoogleAnalyticsUtility {
 	}
 
 	// Query builder for Filter Parameter
-
 	private String createFilterQuery(FilterParameter filters, String filterValue) {
 		if (filters != null) {
 			List<FilterParameterType> filterParameterTypes = filters.getFilterParams();
@@ -266,7 +252,6 @@ public class GoogleAnalyticsUtility {
 				if (filterValue.endsWith(";") || filterValue.endsWith(",")) {
 					filterValue = filterValue.substring(0, filterValue.length() - 1);
 				}
-
 			}
 		}
 
@@ -274,7 +259,6 @@ public class GoogleAnalyticsUtility {
 	}
 
 	// Query Builder for Sort Parameter
-
 	private String createSortQuery(SortParameter sort, String sortValue) {
 
 		if (sort != null) {
@@ -283,7 +267,6 @@ public class GoogleAnalyticsUtility {
 			if (sortParameterTypes != null && sortParameterTypes.size() > 0) {
 				StringBuilder builder = new StringBuilder();
 				for (SortParameterType sortParameter : sortParameterTypes) {
-					FilterKey value = sortParameter.getSortparamValue();
 					SortOrder order = sortParameter.getSortOrder();
 					if (order == SortOrder.ASCENDING) {
 						builder.append(sortParameter.getSortparamValue().getFilterKey()).append(",");
@@ -296,18 +279,13 @@ public class GoogleAnalyticsUtility {
 				if (sortValue.endsWith(",")) {
 					sortValue = sortValue.substring(0, sortValue.length() - 1);
 				}
-
-				
 			}
-
 		}
 
 		return sortValue;
-
 	}
 
 	// Query builder for Dimension Parameter
-
 	private String createDimentionQuery(List<DimensionParameter> dimensions, String dimentionValue) {
 		if (dimensions != null && dimensions.size() > 0) {
 			StringBuilder builder = new StringBuilder();
@@ -321,7 +299,6 @@ public class GoogleAnalyticsUtility {
 	}
 
 	// Query builder for metrics parameters
-
 	private String createMetrixQuery(List<MetricsParameter> metrix, String metricValue) {
 		if (metrix != null && metrix.size() > 0) {
 			StringBuilder builder = new StringBuilder();
