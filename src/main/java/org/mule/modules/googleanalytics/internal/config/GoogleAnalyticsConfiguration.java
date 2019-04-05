@@ -5,10 +5,11 @@
 package org.mule.modules.googleanalytics.internal.config;
 
 import org.mule.modules.googleanalytics.internal.operation.GoogleAnalyticsOperations;
+import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 
-
-@Operations({ GoogleAnalyticsOperations.class })
+@Configuration(name = "config")
+@Operations({GoogleAnalyticsOperations.class})
 public class GoogleAnalyticsConfiguration  {
 
 }

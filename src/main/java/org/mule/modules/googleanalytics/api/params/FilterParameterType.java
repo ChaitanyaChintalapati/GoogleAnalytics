@@ -6,8 +6,10 @@ package org.mule.modules.googleanalytics.api.params;
 import org.mule.modules.googleanalytics.api.domain.FilterKey;
 import org.mule.modules.googleanalytics.api.domain.FilterOperation;
 import org.mule.modules.googleanalytics.api.domain.FilterOperator;
+import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 
 public class FilterParameterType {
 
@@ -26,8 +28,10 @@ public class FilterParameterType {
 
 	@Parameter
 	private FilterOperator operator;
+    
 
 	@Parameter
+	@Expression(SUPPORTED)
 	private String value;
 
 	@Parameter

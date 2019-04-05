@@ -1,7 +1,7 @@
 = GoogleAnalytics Connector Release Notes
 :keywords: googleanalytics
 
-The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. The MuleSoft support category for the Cassandra connector is link:/mule-user-guide/v/3.8/anypoint-connectors#connector-categories[Select].
+The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. 
 
 === GoogleAnalytics Connector 
 
@@ -21,7 +21,7 @@ GoogleAnalytics connector is available on Mule 4.0.
 
 The GoogleAnalytics connector supports the following capabilities:
 
-* Oauth 2.0 Authentication for accessing google analytics data as configured in  properties file.
+* Service Account Authentication for accessing google analytics data as configured in  properties file.
 * To query the API for Google Analytics report data, which consists of dimensions , metrics, filters , sorting and segments.
 * Metric expressions
 
