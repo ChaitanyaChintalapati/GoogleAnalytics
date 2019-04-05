@@ -55,7 +55,8 @@ public class GoogleAnalyticsConnectionProvider implements CachedConnectionProvid
 		try {
 			connection.disconnect();
 		} catch (Exception e) {
-			System.out.println("Error");
+			log.error("Error occured in GoogleAnalyticsConnectionProvider::generateReport()", e);
+			throw new GoogleAnalyticsException("Unable to get google access token. Please check you json file", GoogleAnalyticsError.CONNECTION_EXCEPTION);
 		}
 	}
 
