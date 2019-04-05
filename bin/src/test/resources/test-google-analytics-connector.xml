@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:google-analytics="http://www.mulesoft.org/schema/mule/google-analytics"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core 
+	http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/google-analytics 
+http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analytics.xsd">
+	<configuration-properties file="automation-credentials.properties" />
+	<google-analytics:config name="Google_Analytics_Config"
+		doc:name="Google Analytics Config" doc:id="9cb86789-1ca1-4eda-b007-e2ca4bd63a6b">
+		<google-analytics:connection jsonFilePath="${connection.filePath}"
+			applicationName="${connection.applicationName}" />
+	</google-analytics:config>
+	<flow name="generateReportFlow" doc:id="c71676e1-21db-4aab-9745-1bc945381b69">
+		<google-analytics:generate-report
+			doc:name="Generate report" doc:id="7d1826c8-1465-43e4-b5ca-c126f2b57381"
+			config-ref="Google_Analytics_Config" profileId="${analytics.profileID}"
+			startDate="${analytics.startDate}" endDate="${analytics.endDate}">
+			<google-analytics:metrix-parameters>
+				<google-analytics:metrics-parameter
+					value="Sessions" />
+				<google-analytics:metrics-parameter
+					value="Bounces" />
+			</google-analytics:metrix-parameters>
+			<google-analytics:dimension-parameters>
+				<google-analytics:dimension-parameter
+					value="Country" />
+			</google-analytics:dimension-parameters>
+			<google-analytics:filter-parameter>
+				<google-analytics:filter-params>
+					<google-analytics:filter-parameter-type
+						key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+				</google-analytics:filter-params>
+			</google-analytics:filter-parameter>
+			<google-analytics:segmentparameter>
+				<google-analytics:segmentparams>
+					<google-analytics:segment-parameter-type
+						segmentKey="Users" segmentType="Condition" segmentFilter="Sessions"
+						segmentOpertor="GreaterThan" segmentValue="1" />
+				</google-analytics:segmentparams>
+			</google-analytics:segmentparameter>
+		</google-analytics:generate-report>
+	</flow>
+</mule>

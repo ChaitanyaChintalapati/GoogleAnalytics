@@ -1,0 +1,42 @@
+= GoogleAnalytics Connector Release Notes
+:keywords: googleanalytics
+
+The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. 
+
+=== GoogleAnalytics Connector 
+
+GoogleAnalytics connector is available on Mule 4.0.
+
+
+[%header%autowidth]
+|===
+|Application/Service |Version
+|Mule Runtime	     |  4.x.x
+|Google Analytics Core|  Reporting API	V3
+|Java	             |  1.8 and later
+|===
+
+
+==== Key Features
+
+The GoogleAnalytics connector supports the following capabilities:
+
+* Service Account Authentication for accessing google analytics data as configured in  properties file.
+* To query the API for Google Analytics report data, which consists of dimensions , metrics, filters , sorting and segments.
+* Metric expressions
+
+The API allows you to request not only built-in metrics but also combination of metrics expressed in mathematical operations. For example, you can use the expression ga:goal1completions/ga:sessions to request the goal completions per number of sessions.
+
+* Multiple date ranges
+
+The API allows you in a single request to get data in two date ranges.
+
+* Cohorts and Lifetime value
+
+The API has a rich vocabulary to request Cohort and Lifetime value reports.
+
+* Multiple segments
+
+The API enables you to get multiple segments in a single request.
+
+

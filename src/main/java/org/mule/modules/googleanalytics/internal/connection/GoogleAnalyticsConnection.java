@@ -10,7 +10,10 @@ import java.security.GeneralSecurityException;
 import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
 import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsException;
 import org.mule.modules.googleanalytics.internal.operation.GoogleAnalyticsOperations;
+import org.mule.modules.googleanalytics.internal.util.GoogleAnalyticsUtility;
 import org.mule.runtime.extension.api.annotation.Operations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -21,6 +24,7 @@ import com.google.api.services.analytics.Analytics;
 import com.google.api.services.analytics.AnalyticsScopes;
 
 public class GoogleAnalyticsConnection {
+	private static final Logger log = LoggerFactory.getLogger(GoogleAnalyticsConnection.class);
 	
 	private Analytics analytics;
 	private String jsonFilePath;
@@ -45,6 +49,7 @@ public class GoogleAnalyticsConnection {
 		try {
 			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 		} catch (GeneralSecurityException | IOException e) {
+			log.error("Error occured in GoogleAnalyticsConnection::generateReport()", e);
 			throw new GoogleAnalyticsException("Unable to make a connection with google analytics server", GoogleAnalyticsError.CONNECTION_EXCEPTION);
 		}
 
@@ -52,6 +57,7 @@ public class GoogleAnalyticsConnection {
 		try {
 			credential = GoogleCredential.fromStream(path).createScoped(AnalyticsScopes.all());
 		} catch (IOException e) {
+			log.error("Error occured in GoogleAnalyticsConnection::generateReport()", e);
 			throw new GoogleAnalyticsException("Unable to get google access token. Please check you json file", GoogleAnalyticsError.CONNECTION_EXCEPTION);
 		}
 
