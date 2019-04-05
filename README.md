@@ -1,4 +1,4 @@
-# Google Analytics Connector
+# Google Analytics Connector   
 
 Google Analytics Connector 1.0 from Ksquare gives out-of box solution to Integrate your Google Analytics data with other business applications.
 
@@ -22,8 +22,9 @@ Java	             |  1.8 and later
 
 ## Highlights of Google Analytics Connector:
 
-1.	It allows users to automatically build quires to determine which metrics and dimensions are brought back. We can select the metrics parameters from the dropdown and from these selected parameters connectors build a query.
+1.	It allows users to automatically build queries to determine which metrics and dimensions are brought back. We can select the metrics parameters from the dropdown and from these selected parameters connectors build a query.
 2. Can retrieve the information from specific date ranges according to user.
+
 
 Add this dependency to your application pom.xml
 ```
