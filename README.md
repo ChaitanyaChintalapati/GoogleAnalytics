@@ -30,7 +30,7 @@ Add this dependency to your application pom.xml
 
             <groupId>com.mulesoft.connectors</groupId>
             <artifactId>mule-googleAnalytics-connector</artifactId>
-            <version>2.0.22</version>
+            <version>2.1.0-SNAPSHOT</version>
             <classifier>mule-plugin</classifier>
 
 ```

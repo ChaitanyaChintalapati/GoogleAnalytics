@@ -1,15 +1,15 @@
+/**
+ * (c) 2003-2017 MuleSoft, Inc. The software in this package is published under the terms of the Commercial Free Software license V.1 a copy of which has been included with this distribution in the LICENSE.md file.
+ */
+
 package org.mule.modules.googleanalytics.internal.extension;
 
-import static org.mule.runtime.api.meta.Category.COMMUNITY;
+import static org.mule.runtime.api.meta.Category.CERTIFIED;
 
 import org.mule.modules.googleanalytics.internal.config.GoogleAnalyticsConfiguration;
-import org.mule.modules.googleanalytics.internal.connection.GoogleAnalyticsConnectionProvider;
-import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
-import org.mule.modules.googleanalytics.internal.operation.GoogleAnalyticsOperations;
+import org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsError;
 import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.Extension;
-import org.mule.runtime.extension.api.annotation.Operations;
-import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypes;
 import org.mule.runtime.extension.api.annotation.license.RequiresEnterpriseLicense;
@@ -20,10 +20,9 @@ import org.mule.runtime.extension.api.annotation.license.RequiresEnterpriseLicen
  * declared.
  */
 @Xml(prefix = "google-analytics")
-@Extension(name = "Google Analytics", vendor = "Ksquare", category = COMMUNITY)
-@ConnectionProviders(GoogleAnalyticsConnectionProvider.class)
-@Operations(GoogleAnalyticsOperations.class)
+@Extension(name = "Google Analytics", vendor = "Ksquare", category = CERTIFIED)
 @ErrorTypes(GoogleAnalyticsError.class)
+@Configurations(GoogleAnalyticsConfiguration.class)
 @RequiresEnterpriseLicense(allowEvaluationLicense = true)
 public class GoogleAnalyticsExtension {
 

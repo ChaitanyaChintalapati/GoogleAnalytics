@@ -10,6 +10,8 @@ public enum Output {
 
 	private String output;
 
+	private Output(){};
+	
 	private Output(String output) {
 		this.output = output;
 	}

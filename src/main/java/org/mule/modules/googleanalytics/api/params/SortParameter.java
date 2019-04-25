@@ -17,7 +17,6 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 @ExclusiveOptionals
 public class SortParameter {
 
-	
 	@Parameter
 	@Optional
 	@NullSafe

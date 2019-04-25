@@ -1,3 +1,6 @@
+/**
+ * (c) 2003-2017 MuleSoft, Inc. The software in this package is published under the terms of the Commercial Free Software license V.1 a copy of which has been included with this distribution in the LICENSE.md file.
+ */
 package org.mule.modules.googleanalytics.internal.util;
 
 import java.io.IOException;
@@ -21,7 +24,7 @@ import org.mule.modules.googleanalytics.api.params.SegmentParameter;
 import org.mule.modules.googleanalytics.api.params.SegmentParameterType;
 import org.mule.modules.googleanalytics.api.params.SortParameter;
 import org.mule.modules.googleanalytics.api.params.SortParameterType;
-import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
+import org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsError;
 import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +42,8 @@ public class GoogleAnalyticsUtility {
 
 	public String generateReport(Analytics analytics, String profileId, String startDate, String endDate,
 			SamplingLevel samplingLevel, int startIndex, int maxResults, Output output, List<MetricsParameter> metrix,
-			List<DimensionParameter> dimensions, SortParameter sort, FilterParameter filters,
-			SegmentParameter segment) throws GoogleAnalyticsException{
+			List<DimensionParameter> dimensions, SortParameter sort, FilterParameter filters, SegmentParameter segment)
+			throws GoogleAnalyticsException {
 
 		String result = null;
 		try {
@@ -52,13 +55,14 @@ public class GoogleAnalyticsUtility {
 			throw e;
 		} catch (IOException e) {
 			log.error("Error occured in GoogleAnalyticsUtility::generateReport()", e);
-			throw new GoogleAnalyticsException("Error while parsing google analytics result into json", GoogleAnalyticsError.JSON_PARSER_EXCEPTION);
+			throw new GoogleAnalyticsException("Error while parsing google analytics result into json",
+					GoogleAnalyticsError.JSON_PARSER_EXCEPTION);
 		}
 		return result;
 	}
 
 	// Get the first view (profile) ID for the authorized user.
-	private String getFirstProfileId(Analytics analytics, String profileId) throws GoogleAnalyticsException{
+	private String getFirstProfileId(Analytics analytics, String profileId) throws GoogleAnalyticsException {
 
 		// Query for the list of all accounts associated with the service
 		// account.

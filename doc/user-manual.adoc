@@ -2,12 +2,20 @@
 :keywords: anypoint studio, connector, endpoint
 
 
-https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[_Select_]
+https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[_Certified_]
 
 == Overview
 The GoogleAnalytics connector was implemented using java and consuming Google Analytics core V3 API. The connector exposes  Generate Report operation.
 
 == Prerequisites
+
+[%header%autowidth]
+|===
+|Application/Service |Version
+|Mule Runtime	     |  4.1.x
+|Google Analytics Core|  Reporting API	V3
+|Java	             |  1.8 and later
+|===
 
 This document assumes that you are familiar with Mule, Anypoint Connectors, Anypoint Studio, Mule concepts, elements in a Mule flow, and Global Elements.
 
@@ -25,7 +33,7 @@ the Dependency Snippets in Anypoint Exchange.
 
 #### How to Configure OAuth2
 
-=== Initial Steps to create  Client ID and Client Secret
+=== Initial Steps to generate clients secrets file from service account:
 
 . Register your application in the Google API Console.
 . Authorize access to Google Analytics Data.

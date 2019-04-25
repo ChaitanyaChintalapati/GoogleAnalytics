@@ -439,8 +439,14 @@ public enum FilterKey {
 	DsKeyword("ga:dsKeyword"),
 	DsKeywordId("ga:dsKeywordId");
 	
+	
 	private String FilterKey;
 
+	private FilterKey(){};
+	
+	private FilterKey(String filterKey) {
+		this.FilterKey = filterKey;
+	}	
 	public String getFilterKey() {
 		return FilterKey;
 	}
@@ -448,8 +454,4 @@ public enum FilterKey {
 	public void setFilterKey(String filterKey) {
 		FilterKey = filterKey;
 	}
-
-	private FilterKey(String filterKey) {
-		FilterKey = filterKey;
-	}	
 }

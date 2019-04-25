@@ -9,12 +9,10 @@ import org.mule.modules.googleanalytics.api.domain.FilterKey;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 public class SortParameterType {
-	
-	
-	
+
 	@Parameter
 	private FilterKey sortparamValue;
-	
+
 	@Parameter
 	private SortOrder sortOrder;
 
@@ -34,17 +32,14 @@ public class SortParameterType {
 		this.sortOrder = sortOrder;
 	}
 
-	
-	public SortParameterType(){
-		
+	public SortParameterType() {
+
 	}
-	
+
 	public SortParameterType(FilterKey sortparamValue, SortOrder sortOrder) {
 		super();
 		this.sortparamValue = sortparamValue;
 		this.sortOrder = sortOrder;
 	}
-	
-	
 
 }

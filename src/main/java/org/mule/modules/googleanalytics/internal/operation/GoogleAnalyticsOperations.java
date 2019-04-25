@@ -1,8 +1,13 @@
+/**
+ * (c) 2003-2017 MuleSoft, Inc. The software in this package is published under the terms of the Commercial Free Software license V.1 a copy of which has been included with this distribution in the LICENSE.md file.
+ */
+
 package org.mule.modules.googleanalytics.internal.operation;
 
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.ANY;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,26 +37,24 @@ import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 //import org.mule.connectors.atlantic.commons.builder.config.exception.DefinedExceptionHandler;
 
-import com.google.api.services.analytics.Analytics;
-
 /**
  * 
  * @author chaitanyachintalapati(https://github.com/ChaitanyaChintalapati)
- * @version 1.0
- * generate report operation responsible for getting google analytics data.
+ * @version 1.0 generate report operation responsible for getting google
+ *          analytics data.
  *
  */
 
 public class GoogleAnalyticsOperations {
 
 	@Inject
-    ExpressionManager expressionManager;
+	ExpressionManager expressionManager;
 
-    @Ignore
-    public void setExpressionManager(ExpressionManager expressionManager) {
-        this.expressionManager = expressionManager;
-    }
-	
+	@Ignore
+	public void setExpressionManager(ExpressionManager expressionManager) {
+		this.expressionManager = expressionManager;
+	}
+
 	@MediaType(value = ANY, strict = false)
 	public String generateReport(@Connection GoogleAnalyticsConnection analyticsConnection,
 			@Expression(SUPPORTED) @Summary("An Unique Google Analytics Profile ID to get Analytics Data ") String profileId,
@@ -65,12 +68,13 @@ public class GoogleAnalyticsOperations {
 			@Summary("The dimensions parameter breaks down metrics by common criteria; for example, by ga:browser or ga:city") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) List<DimensionParameter> dimensionParameters,
 			@Summary("Sorting the results of a query enables you to ask different questions about your data. For example, to address the question What are my top countries, and which browsers do they use most?") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SortParameter sortParameter,
 			@Summary("The filters query string parameter restricts the data returned from your request.For example, the following query requests ga:pageviews and ga:browser for view (profile) 12134, where the ga:browser dimension starts with the string Firefox:") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) FilterParameter filterParameter,
-			@Summary("Isolate and analyze subsets of your data, For example Select users who used Chrome browser in at least one of their sessions") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SegmentParameter segmentparameter) throws GoogleAnalyticsException{
+			@Summary("Isolate and analyze subsets of your data, For example Select users who used Chrome browser in at least one of their sessions") @Optional @NullSafe @Placement(tab = ADVANCED_TAB) @Expression(ExpressionSupport.NOT_SUPPORTED) @ParameterDsl(allowReferences = false) SegmentParameter segmentparameter)
+			throws GoogleAnalyticsException {
 
 		GoogleAnalyticsUtility analyticsUtility = new GoogleAnalyticsUtility();
-		return analyticsUtility.generateReport(analyticsConnection.getAnalytics(), profileId, startDate, endDate, samplingLevel,
-				startIndex, maxResults, output, metrixParameters, dimensionParameters, sortParameter, filterParameter,
-				segmentparameter);
+		return analyticsUtility.generateReport(analyticsConnection.getAnalytics(), profileId, startDate, endDate,
+				samplingLevel, startIndex, maxResults, output, metrixParameters, dimensionParameters, sortParameter,
+				filterParameter, segmentparameter);
 	}
 
 }

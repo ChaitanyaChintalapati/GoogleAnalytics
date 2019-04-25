@@ -3,13 +3,14 @@
  */
 package org.mule.modules.googleanalytics.api.params;
 
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+
 import org.mule.modules.googleanalytics.api.domain.FilterKey;
 import org.mule.modules.googleanalytics.api.domain.SegmentKey;
 import org.mule.modules.googleanalytics.api.domain.SegmentOperator;
 import org.mule.modules.googleanalytics.api.domain.SegmentType;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 
 public class SegmentParameterType {
 

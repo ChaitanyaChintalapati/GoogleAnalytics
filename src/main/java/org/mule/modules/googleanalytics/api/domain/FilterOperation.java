@@ -8,6 +8,8 @@ public enum FilterOperation {
 
 	private String operation;
 
+	private FilterOperation(){};
+	
 	private FilterOperation(String operation) {
 		this.operation = operation;
 	}
