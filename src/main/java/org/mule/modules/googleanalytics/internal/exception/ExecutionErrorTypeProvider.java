@@ -6,6 +6,7 @@ package org.mule.modules.googleanalytics.internal.exception;
 
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
+
 import static org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsErrorType.EXECUTION;
 
 import java.util.Set;

@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analyti
 	<configuration-properties file="automation-credentials.properties" />
 	<google-analytics:config name="Google_Analytics_Config"
 		doc:name="Google Analytics Config" doc:id="9cb86789-1ca1-4eda-b007-e2ca4bd63a6b">
-		<google-analytics:connection jsonFilePath="/Users/chaitanyachintalapati/AnypointStudio/alexa_workspace/client_secrets.json"
+		<google-analytics:connection jsonFilePath="${connection.filePath}"
 			applicationName="${connection.applicationName}" />
 	</google-analytics:config>
 	<flow name="generateReportFlow" doc:id="c71676e1-21db-4aab-9745-1bc945381b69">

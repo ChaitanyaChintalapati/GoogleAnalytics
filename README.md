@@ -20,7 +20,10 @@ Java	             |  1.8 and later
 
 
 
+
 ## Highlights of Google Analytics Connector Mule 4:
+=======
+
 
 1.	It allows users to automatically build quires to determine which metrics and dimensions are brought back. We can select the metrics parameters from the dropdown and from these selected parameters connectors build a query.
 2. Can retrieve the information from specific date ranges according to user.
