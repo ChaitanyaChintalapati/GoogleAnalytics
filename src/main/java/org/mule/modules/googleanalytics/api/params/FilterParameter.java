@@ -14,7 +14,7 @@ import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 public class FilterParameter {
-	
+
 	@Parameter
 	@Optional
 	@NullSafe
@@ -22,8 +22,6 @@ public class FilterParameter {
 	@ParameterDsl(allowReferences = false)
 	private List<FilterParameterType> filterParams = new LinkedList<>();
 
-	
-	
 	public List<FilterParameterType> getFilterParams() {
 		return filterParams;
 	}

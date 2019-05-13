@@ -3,7 +3,7 @@
 
 The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. The MuleSoft support category for the Cassandra connector is link:/mule-user-guide/v/3.8/anypoint-connectors#connector-categories[Select].
 
-=== GoogleAnalytics Connector 
+== Google Analytics Connector 2.1.0-SNAPSHOT
 
 GoogleAnalytics connector is available on Mule 4.0.
 
@@ -39,4 +39,14 @@ The API has a rich vocabulary to request Cohort and Lifetime value reports.
 
 The API enables you to get multiple segments in a single request.
 
+
+Add this dependency to your application pom.xml
+```
+
+            <groupId>com.mulesoft.connectors</groupId>
+            <artifactId>mule-googleAnalytics-connector</artifactId>
+            <version>2.1.0-SNAPSHOT</version>
+            <classifier>mule-plugin</classifier>
+
+```
 

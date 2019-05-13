@@ -1,0 +1,286 @@
+= Technical details:
+
+== Connector Configuration:
+
+=== Default Configuration:
+
+=== Service Account
+
+Connection strategy to connect with Google Analytics through service account authentication.
+
+== Attributes:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Name |String | The name of this configuration. With this name can be later referenced.| | x
+|Json file path | String | The path to the json file provided by google for service authentication.| | x
+| Application Name | String | The Application name for Google Analytics.| | x
+| Expiration Policy | Expiration Policy  | Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform expires the instance at the exact moment that it becomes eligible. The runtime purges the instances when it sees fit | | x .
+|============
+
+== Expiration Policy:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Max Idle Time| Number | A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it’s considered eligible for expiration. | | x
+|Time Unit |Enumeration, one of:
+
+.NANOSECONDS
+
+.MICROSECONDS
+
+.MILLISECONDS
+
+.SECONDS
+
+.MINUTES
+
+.HOURS
+
+.DAYS | A time unit that qualifies the maxIdleTime attribute. | | x
+|============
+
+ 
+
+
+== Operations:
+
+=== Generate report:
+
+```xml
+<google-analytics:generate-report>
+```
+
+== Attributes:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Profile ID| String | The unique table ID is the Analytics view (profile) ID for which the query will retrieve the data.| | yes
+|Start Date| Enumeration, one of:
+
+.1daysAgo
+
+.2daysAgo
+
+.3daysAgo
+
+.4daysAgo
+
+.5daysAgo
+
+.6daysAgo
+
+.7daysAgo
+
+.8daysAgo
+
+.9daysAgo
+
+.today
+
+.yesterday
+
+or any custom value of type Values must match [0-9]{4}-[0-9]{2}-[0-9]{2}.
+
+or any custom value of type Values must match today,yesterday,[0-9]+(daysAgo)| Start date for fetching Analytics data.| | yes
+|End date|Enumeration, one of:
+
+.1daysAgo
+
+.2daysAgo
+
+.3daysAgo
+
+.4daysAgo
+
+.5daysAgo
+
+.6daysAgo
+
+.7daysAgo
+
+.8daysAgo
+
+.9daysAgo
+
+.today
+
+.yesterday
+
+or any custom value of type Values must match [0-9]{4}-[0-9]{2}-[0-9]{2}.
+
+or any custom value of type Values must match today,yesterday,[0-9]+(daysAgo) | End date for fetching Analytics data. | | yes
+|Metric Parameters| Enumeration, one of: list of Metrics and Dimensions Parameters. | List (String containing the Metrics   of the objects created).| | yes
+|Sampling level | Enumeration, one of:
+
+.DEFAULT
+
+.FASTER 
+
+.HIGHER_PRESION | The desired sampling levels.| DEFAULT | x
+|Start index | Integer | The first row of data to retrieve. | | x
+|Max results | Integer | The maximum number of rows to include in the response.| | x
+|Output | Enumeration, one of:
+
+.DATATABLE
+
+.JSON | The desired output type for the Analytics data returned in the response. |JSON | x
+|Dimensiom parameters | Enumeration, one of: list of Metrics and Dimensions Parameters  | List (String containing the Dimension of the objects created) | | x
+| Target Variable |String | The name of the variable to store the operation's output. | | x
+| Target Value | String | An expression to evaluate against the operation's output and store the expression outcome in the target variable.| #[payload] | x
+|============
+
+== Query builder (Advanced) Attributes: 
+
+=== Sort parameter:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Sort Parameters |  Object | List(String containing the Sort of the objects created)| | x
+|============
+
+==== Sort parameter type:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Sort param value | Enumeration, one of: list of dimensions and metrics values | the name of the dimension or metric to sort on. | | x 
+|Sort order| Enumeration, one of:
+
+.ASCENDING
+
+.DESCENDING
+
+.UNSORTED | Sort the selected metric and dimension data. | ASCENDING | x
+|============
+
+=== Filter parameter :
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Filter Parameters |  Object | List(String containing the Filter of the objects created).| | x
+|============
+
+==== Filter parameter type: 
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Key | Enumeration, one of: list of dimensions and metrics values |  The name of the dimension or metric to filter on.| | x
+|Operator | Enumeration, one of :
+
+.ContainsAMatchForRegularExpression
+
+.ContainsSubstring
+
+.DoesNotContainSubstring
+
+.DoesNotMatchForRegularExpression
+
+.EqualTo
+
+.GreaterThan
+
+.GreaterThanEqualTo
+
+.InList
+
+.LessThan
+
+.LessThanEqualTo | Defines the type of filter match to use. Operators are specific to either dimensions or metrics.| | x
+|value | String | The value to be applied to the filter.| | x
+|operation | Enumeration, one of:
+
+.AND
+
+.OR  | Filters can be combined using OR and AND boolean logic. | | x
+|============
+
+=== Segment Parameters:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Segment Parameters |  Object | List(String containing the Segment of the objects created)| | x
+|============
+
+==== segment parameters type:
+
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|*Name*  |*Type* | *Description* | *Default value* | *Required*
+|Segment Key | Enumeration, one of:
+
+.Sessions
+
+.Users | to segment users or sessions.| | x
+|Segment Type | Enumeration, one of:
+Condition
+
+Sequence | To specify one or more conditions and/or sequences.| | x
+|Segment Filter | String |  The name of the dimension or metric to filter on.| | x
+|Segment operator | Enumeration, one of:
+
+.Between
+
+.ContainsAMatchForRegularExpression
+
+.ContainsSubstring
+
+.DoesNotContainSubstring
+
+.DoesNotMatchForRegularExpression
+
+.EqualTo
+
+.GreaterThan
+
+.GreaterThanEqualTo
+
+.InList
+
+.LessThan
+
+.LessThanEqualTo
+
+.NotEqual| Defines the type of filter match to use. Operators are specific to either dimensions or metrics. | | x
+|Segment value | String| The value to be applied to the segment query. | | x
+|============
+
+
+
+== Output: 
+[options="header",width="50%"]
+[source,code,linenums]
+|============
+|ReturnType| Description
+|JSON| The analytics data with nested json objects.
+|============
+
+
+== Throws:
+
+. GOOGLE-ANALYTICS:CONNECTIVITY
+. GOOGLE-ANALYTICS:RETRY_EXHAUSTED
+
+
+
+
+
+
+
+

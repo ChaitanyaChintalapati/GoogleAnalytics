@@ -12,15 +12,17 @@ public enum SortOrder {
 	
 	private String sortOrder;
 
+	private SortOrder(){};
+
+	private SortOrder(String sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+	
 	public String getSortOrder() {
 		return sortOrder;
 	}
 
 	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
-	}
-
-	private SortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
 	}
 	

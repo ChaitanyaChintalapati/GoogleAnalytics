@@ -1,27 +1,25 @@
 package org.mule.modules.googleanalytics.internal.extension;
 
-import static org.mule.runtime.api.meta.Category.COMMUNITY;
+import org.mule.runtime.extension.api.annotation.Extension;
+
+import static org.mule.runtime.api.meta.Category.CERTIFIED;
 
 import org.mule.modules.googleanalytics.internal.config.GoogleAnalyticsConfiguration;
-import org.mule.modules.googleanalytics.internal.connection.OAuth2ConnectionProvider;
-import org.mule.modules.googleanalytics.internal.exception.GoogleAnalyticsError;
+import org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsErrorType;
 import org.mule.runtime.extension.api.annotation.Configurations;
-import org.mule.runtime.extension.api.annotation.Extension;
-import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypes;
 import org.mule.runtime.extension.api.annotation.license.RequiresEnterpriseLicense;
 
+
 /**
- * This is the main class of an extension, is the entry point from which
- * configurations, connection providers, operations and sources are going to be
- * declared.
+ * This is the main class of an extension, is the entry point from which configurations, connection providers, operations
+ * and sources are going to be declared.
  */
 @Xml(prefix = "google-analytics")
-@Extension(name = "Google Analytics", vendor = "Ksquare", category = COMMUNITY)
-@ConnectionProviders({ OAuth2ConnectionProvider.class })
+@Extension(name = "Google Analytics", vendor = "Ksquare", category = CERTIFIED)
 @Configurations(GoogleAnalyticsConfiguration.class)
-@ErrorTypes(GoogleAnalyticsError.class)
+@ErrorTypes(GoogleAnalyticsErrorType.class)
 @RequiresEnterpriseLicense(allowEvaluationLicense = true)
 public class GoogleAnalyticsExtension {
 

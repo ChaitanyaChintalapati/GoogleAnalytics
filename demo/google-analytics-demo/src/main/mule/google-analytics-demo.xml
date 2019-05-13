@@ -6,33 +6,39 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/google-analytics http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analytics.xsd">
 	
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f912e47c-0052-40e6-94e1-3108405f27c0" >
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9f2e1c73-8b07-4c8e-9599-d1e99d1effbd" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	
-	<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="998f10f7-6577-45e9-8af5-0bcfb8b4dd2c" >
-		<google-analytics:connection clientId="${oauth2.client.id}" clientSecret="${aoth2.client.secret}" domain="${oauth2.callback.host}" port="${aoth2.callback.port}" applicationName="${application.name}" />
+	<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="fa996dd6-54f0-41ac-9c9c-953dbe8329e4" >
+		<google-analytics:connection  applicationName="Hello Analytics" jsonFilePath="client_secrets.json"/>
 	</google-analytics:config>
 	
-	<configuration-properties doc:name="Configuration properties" doc:id="b2af819b-0c48-448e-9fa1-095d2633f685" file="application.properties" />
-	
-	<flow name="google-analytics-demoFlow" doc:id="e7715638-32be-41ff-b0cb-fb6dba0f7a6e" >
-		<http:listener doc:name="Listener" doc:id="8ad4eb93-da2a-4ade-b9d1-6a27ecbeabf8" config-ref="HTTP_Listener_config" path="/google-analytics/demo"/>
-		<google-analytics:generate-report doc:name="Generate report" doc:id="8432aa09-2946-482a-8986-614dfb03a75b" config-ref="Google_Analytics_Config" profileId="UA-132217642-1" startDate="7daysAgo" endDate="today" samplingLevel="DEFAULT" output="JSON">
-			<google-analytics:metrix-parameters >
-				<google-analytics:metrics-parameter value="AdClicks" />
-				<google-analytics:metrics-parameter value="AvgTimeOnPage" />
-			</google-analytics:metrix-parameters>
-			<google-analytics:dimension-parameters >
-				<google-analytics:dimension-parameter value="AdDistributionNetwork" />
-				<google-analytics:dimension-parameter value="AdContent" />
-			</google-analytics:dimension-parameters>
-			<google-analytics:sort-parameters >
-				<google-analytics:sortparms >
-					<google-analytics:sort-parameter-type sortparamValue="AdContent" sortOrder="DESCENDING" />
-				</google-analytics:sortparms>
-			</google-analytics:sort-parameters>
-		</google-analytics:generate-report>
-		<logger level="INFO" doc:name="Log Google Analytics Payload" doc:id="40c9a030-f027-4df0-bf22-cb6ea017ce0e" message="#[payload]"/>
+<flow name="google-analytics-demoFlow" doc:id="97f36660-e553-4acd-9221-3be316447d83" >
+		<http:listener doc:name="Listener" doc:id="fa3ba2d6-d212-43f6-9606-f0c1f6427d2c" config-ref="HTTP_Listener_config" path="/google-analytics/demo"/>
+		<google-analytics:generate-report doc:name="Generate report" doc:id="d5861752-9751-450f-ae38-1864955c150d" config-ref="Google_Analytics_Config" profileId=" " startDate="7daysAgo" endDate="today" samplingLevel="DEFAULT" output="JSON">
+			<google-analytics:metrix-parameters>
+            <google-analytics:metrics-parameter value="Sessions" />
+         </google-analytics:metrix-parameters>
+         <google-analytics:dimension-parameters>
+            <google-analytics:dimension-parameter value="Country"/>
+				<google-analytics:dimension-parameter value="Browser" />
+				<google-analytics:dimension-parameter value="City" />
+				<google-analytics:dimension-parameter value="Date" />
+				<google-analytics:dimension-parameter value="DayOfWeek" />
+				<google-analytics:dimension-parameter value="PagePathLevel1" />
+         </google-analytics:dimension-parameters>
+         <google-analytics:filter-parameter>
+             <google-analytics:filter-params>
+               <google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+            </google-analytics:filter-params> 
+         </google-analytics:filter-parameter>
+         <google-analytics:segmentparameter >
+				<google-analytics:segmentparams >
+					<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Sessions" segmentOpertor="GreaterThan" segmentValue="1" />
+				</google-analytics:segmentparams>
+			</google-analytics:segmentparameter>
+			</google-analytics:generate-report>
+		<logger level="INFO" doc:name="Log Google Analytics Payload" doc:id="0d758ccf-19df-4a32-81bd-051f818d4a1f" message="#[payload]"/>
 	</flow>
 </mule>

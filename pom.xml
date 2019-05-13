@@ -4,10 +4,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mulesoft.connectors</groupId>
-	<artifactId>mule-googleAnalytics-connector</artifactId>
-	<version>2.0.6-SNAPSHOT</version>
+	<artifactId>mule-googleanalytics-connector</artifactId>
+	<version>2.1.0-SNAPSHOT</version>
 	<packaging>mule-extension</packaging>
-	<name>Mule Google Analytics Connector</name>
+	<name>Google Analytics Connector - Mule4</name>
 
 	<parent>
 		<groupId>org.mule.extensions</groupId>
@@ -18,6 +18,7 @@
 	<properties>
 		<project.http.version>1.25.0</project.http.version>
 		<project.oauth.version>1.25.0</project.oauth.version>
+	
 	</properties>
 
 	<dependencies>
@@ -99,6 +100,9 @@
 				<extensions>true</extensions>
 				<configuration>
 					<classifier>mule-application-example</classifier>
+					<properties>
+						<connection.filePath>${connection.filePath}</connection.filePath>
+					</properties>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -154,7 +158,20 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
+	<distributionManagement>
+		<snapshotRepository>
+			<id>Repository</id>
+			<name>Snapshot Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/2b8017cc-fb1c-47a9-81b1-3d9cba8d0a1e/maven</url>
+			<layout>default</layout>
+		</snapshotRepository>
+		<repository>
+			<id>Repository</id>
+			<name>Corporate Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/2b8017cc-fb1c-47a9-81b1-3d9cba8d0a1e/maven</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 	<scm>
 		<connection>scm:git:git://github.com/ChaitanyaChintalapati/GoogleAnalytics.git</connection>
 		<developerConnection>scm:git:git@github.com/ChaitanyaChintalapati/GoogleAnalytics.git</developerConnection>
