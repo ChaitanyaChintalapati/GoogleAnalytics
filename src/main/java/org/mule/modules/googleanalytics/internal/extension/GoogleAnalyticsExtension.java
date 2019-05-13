@@ -8,7 +8,7 @@ package org.mule.modules.googleanalytics.internal.extension;
 import static org.mule.runtime.api.meta.Category.CERTIFIED;
 
 import org.mule.modules.googleanalytics.internal.config.GoogleAnalyticsConfiguration;
-import org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsError;
+import org.mule.modules.googleanalytics.internal.error.GoogleAnalyticsErrorType;
 import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
@@ -22,7 +22,7 @@ import org.mule.runtime.extension.api.annotation.license.RequiresEnterpriseLicen
  */
 @Xml(prefix = "google-analytics")
 @Extension(name = "Google Analytics", vendor = "Ksquare", category = CERTIFIED)
-@ErrorTypes(GoogleAnalyticsError.class)
+@ErrorTypes(GoogleAnalyticsErrorType.class)
 @Configurations(GoogleAnalyticsConfiguration.class)
 @RequiresEnterpriseLicense(allowEvaluationLicense = true)
 public class GoogleAnalyticsExtension {
