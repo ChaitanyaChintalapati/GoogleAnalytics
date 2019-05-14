@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/google-analytics http://www.mulesoft.org/sch
 	</http:listener-config>
 	
 	<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="fa996dd6-54f0-41ac-9c9c-953dbe8329e4" >
-		<google-analytics:connection  applicationName="Hello Analytics" jsonFilePath="client_secrets.json"/>
+		<google-analytics:connection  applicationName="Hello Analytics" jsonFilePath=""/>
 	</google-analytics:config>
 	
 <flow name="google-analytics-demoFlow" doc:id="97f36660-e553-4acd-9221-3be316447d83" >
