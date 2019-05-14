@@ -14,7 +14,7 @@ How to Run Sample
 -----------------
 
 1. Import the project folder demo in Studio.
-2. Add the client_secrets.json to the resources folder for Authentication.
+2. Add the client_secrets.json to the resources folder for Authentication or give path from where the file is located.
 3. Click on 'Test Connection' to make sure the connection works correctly.
 4. Run the application.
 
