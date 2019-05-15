@@ -3,7 +3,7 @@
 
 The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. 
 
-== Google Analytics Connector 2.1.0-SNAPSHOT
+== Google Analytics Connector 2.0.0-SNAPSHOT
 
 GoogleAnalytics connector is available on Mule 4.0.
 
@@ -40,8 +40,8 @@ Add this dependency to your application pom.xml
 ```
 
             <groupId>com.mulesoft.connectors</groupId>
-            <artifactId>mule-googleAnalytics-connector</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <artifactId>mule-googleanalytics-connector</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
             <classifier>mule-plugin</classifier>
 
 ```

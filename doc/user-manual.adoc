@@ -31,7 +31,7 @@ the Dependency Snippets in Anypoint Exchange.
 
 . Support for Mule4 has been added.
 
-#### How to Configure OAuth2
+#### How to Configure Service Account Authorization.
 
 === Initial Steps to generate clients secrets file from service account:
 
