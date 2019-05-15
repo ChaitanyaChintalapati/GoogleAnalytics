@@ -18,7 +18,7 @@
 	<properties>
 		<project.http.version>1.25.0</project.http.version>
 		<project.oauth.version>1.25.0</project.oauth.version>
-	
+
 	</properties>
 
 	<dependencies>
@@ -159,12 +159,12 @@
 		</pluginManagement>
 	</build>
 	<repositories>
-       <repository>
-           <id>mule-releases</id>
-           <name>Nexus Public Releases</name>
-           <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases/</url>
-       </repository>
-   </repositories>
+		<repository>
+			<id>mule-releases</id>
+			<name>Nexus Public Releases</name>
+			<url>https://repository-master.mulesoft.org/nexus/content/repositories/releases/</url>
+		</repository>
+	</repositories>
 	<scm>
 		<connection>scm:git:git://github.com/ChaitanyaChintalapati/GoogleAnalytics.git</connection>
 		<developerConnection>scm:git:git@github.com/ChaitanyaChintalapati/GoogleAnalytics.git</developerConnection>
