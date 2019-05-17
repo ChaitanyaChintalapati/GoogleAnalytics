@@ -1,6 +1,6 @@
 # Google Analytics Connector
 
-Google Analytics Connector 1.0 from Ksquare gives out-of box solution to Integrate your Google Analytics data with other business applications.
+Google Analytics Connector 2.0.0 from Ksquare gives out-of box solution to Integrate your Google Analytics data with other business applications.
 
 
 Easily design and build and integrate with mule flows to control and access google analytics data using secured pathway.
@@ -13,7 +13,7 @@ Google Analytics Connector Implements the following features for the MuleSoft-ba
 
 Application/Service  |	Version
 -------------------  | ----------
-Mule Runtime	     |  4.1.X
+Mule Runtime	     |  4.X
 Google Analytics Core|  Reporting API	V3
 Java	             |  1.8 and later
 
@@ -33,7 +33,7 @@ Add this dependency to your application pom.xml
 
             <groupId>com.mulesoft.connectors</groupId>
             <artifactId>mule-googleanalytics-connector</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0</version>
             <classifier>mule-plugin</classifier>
 
 ```
