@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:google-analytics="http://www.mulesoft.org/schema/mule/google-analytics" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/google-analytics http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analytics.xsd">
+	
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9f2e1c73-8b07-4c8e-9599-d1e99d1effbd" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	
+	<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="fa996dd6-54f0-41ac-9c9c-953dbe8329e4" >
+		<google-analytics:connection  applicationName="Hello Analytics" jsonFilePath=""/>
+	</google-analytics:config>
+	
+<flow name="google-analytics-demoFlow" doc:id="97f36660-e553-4acd-9221-3be316447d83" >
+		<http:listener doc:name="Listener" doc:id="fa3ba2d6-d212-43f6-9606-f0c1f6427d2c" config-ref="HTTP_Listener_config" path="/google-analytics/demo"/>
+		<google-analytics:generate-report doc:name="Generate report" doc:id="d5861752-9751-450f-ae38-1864955c150d" config-ref="Google_Analytics_Config" profileId=" " startDate="7daysAgo" endDate="today" samplingLevel="DEFAULT" output="JSON">
+			<google-analytics:metrix-parameters>
+            <google-analytics:metrics-parameter value="Sessions" />
+         </google-analytics:metrix-parameters>
+         <google-analytics:dimension-parameters>
+            <google-analytics:dimension-parameter value="Country"/>
+				<google-analytics:dimension-parameter value="Browser" />
+				<google-analytics:dimension-parameter value="City" />
+				<google-analytics:dimension-parameter value="Date" />
+				<google-analytics:dimension-parameter value="DayOfWeek" />
+				<google-analytics:dimension-parameter value="PagePathLevel1" />
+         </google-analytics:dimension-parameters>
+         <google-analytics:filter-parameter>
+             <google-analytics:filter-params>
+               <google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+            </google-analytics:filter-params> 
+         </google-analytics:filter-parameter>
+         <google-analytics:segmentparameter >
+				<google-analytics:segmentparams >
+					<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Sessions" segmentOpertor="GreaterThan" segmentValue="1" />
+				</google-analytics:segmentparams>
+			</google-analytics:segmentparameter>
+			</google-analytics:generate-report>
+		<logger level="INFO" doc:name="Log Google Analytics Payload" doc:id="0d758ccf-19df-4a32-81bd-051f818d4a1f" message="#[payload]"/>
+	</flow>
+</mule>
