@@ -2,12 +2,20 @@
 :keywords: anypoint studio, connector, endpoint
 
 
-https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[_Select_]
+https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[_Certified_]
 
 == Overview
 The GoogleAnalytics connector was implemented using java and consuming Google Analytics core V3 API. The connector exposes  Generate Report operation.
 
 == Prerequisites
+
+[%header%autowidth]
+|===
+|Application/Service |Version
+|Mule Runtime	     |  4.x
+|Google Analytics Core|  Reporting API	V3
+|Java	             |  1.8 and later
+|===
 
 This document assumes that you are familiar with Mule, Anypoint Connectors, Anypoint Studio, Mule concepts, elements in a Mule flow, and Global Elements.
 
@@ -23,18 +31,19 @@ the Dependency Snippets in Anypoint Exchange.
 
 . Support for Mule4 has been added.
 
-#### How to Configure OAuth2
+#### How to Configure Service Account Authorization.
 
-=== Initial Steps to create  Client ID and Client Secret
+=== Initial Steps to generate clients secrets file from service account:
 
 . Register your application in the Google API Console.
 . Authorize access to Google Analytics Data.
 . Go to Google API Console Credentials Page and click  Select a project, then NEW PROJECT, and enter a name for the project, and optionally, edit the provided project ID. Click Create.
-. On the Credentials page, select Create credentials, then OAuth client ID.
-. You may be prompted to set a product name on the Consent screen; if so, click Configure consent screen, supply the requested information, and click Save to return to the Credentials screen.
-. Once you have your Application, go to Application Details a save the values of *Client ID* and      *Client Secret*.
+. To create a *Client ID* using an Service Account go to Service account page in Google API Console select the project if prompted.
+. In the Create service account window, type a name for the service account, and select Furnish a new private key. If you want to grant G Suite domain-wide authority to the service account, also select Enable G Suite Domain-wide Delegation. Then click Save.
+. When prompted for the Key type select JSON, and save the generated key as *client_secrets.json*.
+. Add service account to Google Analytics account by The newly created service account will have an email address, <projectId>-<uniqueId>@developer.gserviceaccount.com; Use this email address to add a user to the Google analytics account you want to access via the API. 
 . Go back to *Anypoint Studio* and in a Anypoint Mule Application create a new GoogleAnalytics Connector configuration.
-. Fill the *Client ID* , *Client Secret*  , Domain, port.
+. Fill the *Json File Path* , *Application Name* .
 . To get the Application name login to your Google API console and navigate to credentials and then to OAuth Consent Screen you can find *Application name*.
 . Save this Application name for usage.
 
@@ -42,22 +51,21 @@ the Dependency Snippets in Anypoint Exchange.
 [options="header",width="50%"]
 [source,code,linenums]
 |============
-|Field Name   |Value
-|Domain    |0.0.0.0
-|Local Port    |8080
+|Json File Path   | xxxxx.json
 |Application Name   | xxxxxxxxxxx
-|Client Id  | xxxxxxxxx
-|Client Secret | xxxxxxx
 |============
 + 
 Save configuration. Your configuration should look like:
 
 +
 ```xml
-<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="xxxxxxx" application="xxxxxxx">
-		<google-analytics:connection clientId="xxxxxxxxx" clientSecret="xxxxxxxx" domain="localhost" port="8080" applicationName="xxxxxxx"/>
+<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="9cb86789-1ca1-4eda-b007-e2ca4bd63a6b" >
+		<google-analytics:connection jsonFilePath="xxxxxx.json" applicationName="#['xxxxxxx']"/>
 	</google-analytics:config>
 ```
++
+image::./images/Google-Aanalytics_Config.png[]
++
 +
 . To authorize a user in your Mule application, you should create a flow like the following calling the "authorize" operation:
 +
@@ -65,7 +73,7 @@ Save configuration. Your configuration should look like:
 <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="xxxxx" >
 		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
-	<flow name="test2Flow" doc:id="xxxxxxxxxxx" >
+	<flow name="generateReportFlow" doc:id="xxxxxxxxxxx" >
 		<http:listener doc:name="Listener" doc:id="xxxxxxxxxxx" config-ref="HTTP_Listener_config" path="/test"/>
 		<google-analytics:generate-report doc:name="Generate report" doc:id="xxxxxxxxxxxxx" config-ref="Google_Analytics_Config"/>
 		
@@ -75,7 +83,7 @@ Save configuration. Your configuration should look like:
 
 === See Also
 
- * For more information about the Google Analytics API Authorization : https://developers.google.com/analytics/devguides/reporting/core/v3/authorization
+ * For more information about the Google Analytics API Authorization : https://developers.google.com/analytics/devguides/reporting/core/v3/quickstart/service-java
  
  
 = Operations:
@@ -103,9 +111,6 @@ The unique table ID is the Analytics view (profile) ID for which the query will 
 . Select a property from the menu in the PROPERTY column.
 . Under PROPERTY, click Tracking Info > Tracking Code. Your Google Analytics ID is displayed at the top of the page.
 ----
-
-
-
 
 == *Start-Date* : String(required)
 Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or NdaysAgo where N is a positive integer).
@@ -377,7 +382,7 @@ The desired output type for the Analytics data returned in the response. Accepta
 == Use Case: Studio
 
 === Create a Keyspace
-. Create a new *Mule Project* in Anypoint Studio and fill in the Google Analytics OAuth 2.0  *credentials* in `src/main/resources/mule-app.properties`.
+. Create a new *Mule Project* in Anypoint Studio and fill in the Google Analytics  *credentials* in `src/main/resources/mule-app.properties`.
 
 +
 image::./images/test_flow.png[]
@@ -385,10 +390,7 @@ image::./images/test_flow.png[]
 
 [source,code,linenums]
 ----
-config.clientID=<CLIENT_ID>
-config.clientSECRET=<CLIENT_SECRET>
-config.domain=<DOMAIN>
-config.localhost=<LOCALHOST>
+config.jsonPath= <JSON_PATH>
 config.application_name=<APPLICATION_NAME>
 ----
 
@@ -408,46 +410,45 @@ config.application_name=<APPLICATION_NAME>
 [source,code]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns:slack="http://www.mulesoft.org/schema/mule/slack" xmlns:google-analytics="http://www.mulesoft.org/schema/mule/google-analytics"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:google-analytics="http://www.mulesoft.org/schema/mule/google-analytics"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/google-analytics http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analytics.xsd
-http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-slack.xsd">
-	<google-analytics:config name="Google_Analytics_Config" doc:name="Google Analytics Config" doc:id="0b67d9b3-57e8-4137-8b2c-0fb567ff191c" application="Hello Analytics">
-		<google-analytics:connection clientId="${config.clientID}" clientSecret="${config.clientSECRET}" domain="${config.domain}" port="${config.localhost}" applicationName="${config.application_name}"/>
+http://www.mulesoft.org/schema/mule/google-analytics http://www.mulesoft.org/schema/mule/google-analytics/current/mule-google-analytics.xsd">
+   <configuration-properties file="mule-app.properties" />
+	<google-analytics:config name="Google_Analytics_Config"
+		doc:name="Google Analytics Config" doc:id="9cb86789-1ca1-4eda-b007-e2ca4bd63a6b">
+		<google-analytics:connection jsonFilePath="${config.jsonPath}" applicationName="#${config.application_name}"/>
 	</google-analytics:config>
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d2b90013-2b13-4f61-9244-bd456d00a40c" >
-		<http:listener-connection host="localhost" port="8081" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6641e0fd-1048-470f-9e8b-f42a5e07310b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
-	<flow name="test2Flow" doc:id="82c91b53-03c2-44e5-a7f0-81415a7bc613" >
-		<http:listener doc:name="Listener" doc:id="18d3e152-42a8-4239-8124-583381b94a0e" config-ref="HTTP_Listener_config" path="/test"/>
-		<google-analytics:generate-report doc:name="Generate report" doc:id="afa984e1-da6a-4875-b09e-7b7520a8bf66" config-ref="Google_Analytics_Config" profileId="xxxxx" startDate="2019-1-29" endDate="today">
-			<google-analytics:metrix-parameters >
-				<google-analytics:metrics-parameter value="Sessions" />
-				<google-analytics:metrics-parameter value="Bounces" />
-			</google-analytics:metrix-parameters>
-			<google-analytics:dimension-parameters >
-				<google-analytics:dimension-parameter value="Browser" />
-				<google-analytics:dimension-parameter value="City" />
-			</google-analytics:dimension-parameters>
-			<google-analytics:sort-parameters >
-				<google-analytics:sortparms >
-					<google-analytics:sort-parameter-type sortparamValue="Browser" sortOrder="ASCENDING" />
-				</google-analytics:sortparms>
-			</google-analytics:sort-parameters>
-			<google-analytics:filter-parameter >
-				<google-analytics:filter-params >
-					<google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
-					<google-analytics:filter-parameter-type key="Country" operator="Equals" value="United States" operation="AND" />
-				</google-analytics:filter-params>
-			</google-analytics:filter-parameter>
-			<google-analytics:segmentparameter />
+	<flow name="generateReportFlow" doc:id="c71676e1-21db-4aab-9745-1bc945381b69" >
+		<http:listener doc:name="Listener" doc:id="7b3c8178-f8a1-48ea-95e7-2acfdb8ba7d6" config-ref="HTTP_Listener_config" path="/test"/>
+		<google-analytics:generate-report doc:name="Generate report" doc:id="7d1826c8-1465-43e4-b5ca-c126f2b57381" config-ref="Google_Analytics_Config" profileId="#['xxxxxxx']" startDate="#['2019-01-15']" endDate="#['2019-02-15']">
+			<google-analytics:metrix-parameters>
+            <google-analytics:metrics-parameter value="Sessions" />
+            <google-analytics:metrics-parameter value="Bounces" />
+         </google-analytics:metrix-parameters>
+         <google-analytics:dimension-parameters>
+            <google-analytics:dimension-parameter value="Country"/>
+         </google-analytics:dimension-parameters>
+         <google-analytics:filter-parameter>
+             <google-analytics:filter-params>
+               <google-analytics:filter-parameter-type key="Sessions" operator="GreaterThan" value="1" operation="AND" />
+            </google-analytics:filter-params> 
+         </google-analytics:filter-parameter>
+         <google-analytics:segmentparameter >
+				<google-analytics:segmentparams >
+					<google-analytics:segment-parameter-type segmentKey="Users" segmentType="Condition" segmentFilter="Sessions" segmentOpertor="GreaterThan" segmentValue="1" />
+				</google-analytics:segmentparams>
+			</google-analytics:segmentparameter>
 		</google-analytics:generate-report>
-		
 	</flow>
 </mule>
+
 
 ----
 

@@ -1,9 +1,9 @@
 = GoogleAnalytics Connector Release Notes
 :keywords: googleanalytics
 
-The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. The MuleSoft support category for the Cassandra connector is link:/mule-user-guide/v/3.8/anypoint-connectors#connector-categories[Select].
+The Anypoint GoogleAnalytics connector provides the capability to connect a Mule app to get google analytics data. 
 
-== Google Analytics Connector 2.1.0-SNAPSHOT
+== Google Analytics Connector 2.0.0
 
 GoogleAnalytics connector is available on Mule 4.0.
 
@@ -11,7 +11,7 @@ GoogleAnalytics connector is available on Mule 4.0.
 [%header%autowidth]
 |===
 |Application/Service |Version
-|Mule Runtime	     |  4.x.x
+|Mule Runtime	     |  4.x
 |Google Analytics Core|  Reporting API	V3
 |Java	             |  1.8 and later
 |===
@@ -21,7 +21,7 @@ GoogleAnalytics connector is available on Mule 4.0.
 
 The GoogleAnalytics connector supports the following capabilities:
 
-* Oauth 2.0 Authentication for accessing google analytics data as configured in  properties file.
+* Service Account Authentication for accessing google analytics data as configured in  properties file.
 * To query the API for Google Analytics report data, which consists of dimensions , metrics, filters , sorting and segments.
 * Metric expressions
 
@@ -30,10 +30,6 @@ The API allows you to request not only built-in metrics but also combination of 
 * Multiple date ranges
 
 The API allows you in a single request to get data in two date ranges.
-
-* Cohorts and Lifetime value
-
-The API has a rich vocabulary to request Cohort and Lifetime value reports.
 
 * Multiple segments
 
@@ -44,8 +40,8 @@ Add this dependency to your application pom.xml
 ```
 
             <groupId>com.mulesoft.connectors</groupId>
-            <artifactId>mule-googleAnalytics-connector</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <artifactId>mule-googleanalytics-connector</artifactId>
+            <version>2.0.0</version>
             <classifier>mule-plugin</classifier>
 
 ```
